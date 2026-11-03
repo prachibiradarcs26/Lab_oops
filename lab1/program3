@@ -1,0 +1,101 @@
+import java.util.Scanner;
+
+interface ParkingCharge {
+    void calculateCharge();
+    void displayParkingDetails();
+}
+
+class VehicleParking {
+    String vehicleNumber;
+    String vehicleType;
+    int parkingHours;
+
+    VehicleParking(String number, String type, int hours) {
+        vehicleNumber = number;
+        vehicleType = type;
+        parkingHours = hours;
+    }
+}
+
+class TwoWheeler extends VehicleParking implements ParkingCharge {
+
+    double charge;
+
+    TwoWheeler(String number, int hours) {
+        super(number, "Two Wheeler", hours);
+    }
+
+    public void calculateCharge() {
+        if (parkingHours <= 2)
+            charge = parkingHours * 20;
+        else
+            charge = (2 * 20) + (parkingHours - 2) * 10;
+    }
+
+    public void displayParkingDetails() {
+        System.out.println("\nVehicle Number: " + vehicleNumber);
+        System.out.println("Vehicle Type: " + vehicleType);
+        System.out.println("Parking Hours: " + parkingHours);
+        System.out.println("Total Parking Charge: Rs. " + charge);
+    }
+}
+
+class FourWheeler extends VehicleParking implements ParkingCharge {
+
+    double charge;
+
+    FourWheeler(String number, int hours) {
+        super(number, "Four Wheeler", hours);
+    }
+
+    public void calculateCharge() {
+        if (parkingHours <= 2)
+            charge = parkingHours * 50;
+        else
+            charge = (2 * 50) + (parkingHours - 2) * 30;
+    }
+
+    public void displayParkingDetails() {
+        System.out.println("\nVehicle Number: " + vehicleNumber);
+        System.out.println("Vehicle Type: " + vehicleType);
+        System.out.println("Parking Hours: " + parkingHours);
+        System.out.println("Total Parking Charge: Rs. " + charge);
+    }
+}
+
+class ParkingManagement {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Vehicle Number: ");
+        String number = sc.nextLine();
+
+        System.out.println("1. Two Wheeler");
+        System.out.println("2. Four Wheeler");
+        System.out.print("Enter Vehicle Type: ");
+        int choice = sc.nextInt();
+
+        System.out.print("Enter Parking Hours: ");
+        int hours = sc.nextInt();
+
+        ParkingCharge p;
+
+        if (choice == 1) {
+            p = new TwoWheeler(number, hours);
+        }
+        else if (choice == 2) {
+            p = new FourWheeler(number, hours);
+        }
+        else {
+            System.out.println("Invalid Vehicle Type!");
+            sc.close();
+            return;
+        }
+
+        p.calculateCharge();
+        p.displayParkingDetails();
+
+        sc.close();
+    }
+}
