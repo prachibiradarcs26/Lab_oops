@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+class SeatAlreadyBookedException extends Exception {
+    SeatAlreadyBookedException(String message) {
+        super(message);
+    }
+}
+
+class Reservation {
+    boolean[] seats = new boolean[6]; 
+    void reserveSeat(int seatNo) throws SeatAlreadyBookedException {
+
+               if (seatNo < 1 || seatNo > 5) {
+            throw new IllegalArgumentException("Invalid seat number! Choose between 1 and 5.");
+        }
+
+               if (seats[seatNo]) {
+            throw new SeatAlreadyBookedException("Seat " + seatNo + " is already booked!");
+        }
+
+        seats[seatNo] = true;
+        System.out.println("Seat " + seatNo + " reserved successfully!");
+    }
+}
+
+
+class RailwayReservation {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        Reservation r = new Reservation();
+
+        try {
+            System.out.print("Enter seat number (1-5): ");
+            int seatNo = sc.nextInt();
+
+            r.reserveSeat(seatNo);
+        }
+
+        catch (SeatAlreadyBookedException e) {
+            System.out.println("Booking Error: " + e.getMessage());
+        }
+
+        catch (IllegalArgumentException e) {
+            System.out.println("Invalid Seat: " + e.getMessage());
+        }
+
+        catch (java.util.InputMismatchException e) {
+            System.out.println("Input Error: Please enter an integer.");
+        }
+
+        finally {
+            System.out.println("Transaction completed.");
+            sc.close();
+        }
+    }
+}
